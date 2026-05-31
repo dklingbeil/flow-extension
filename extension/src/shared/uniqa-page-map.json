@@ -1,0 +1,250 @@
+[
+  {
+    "pageStepId": "s1_coverage_scope",
+    "journeyStage": "coverage_choice",
+    "verified": true,
+    "enabled": true,
+    "match": {
+      "requiredText": ["Wo möchten Sie abgesichert sein?", "Bei Arztbesuchen", "Im Krankenhaus"],
+      "requiredSelectorsAll": ["[data-cy='nextStepButton']"],
+      "requiredSelectorsAny": ["input[type='checkbox']"]
+    },
+    "selectors": {
+      "stepAnchor": ["h1", "form", "body"],
+      "primaryCta": ["[data-cy='nextStepButton']"],
+      "backButton": ["[data-cy='backButton']"],
+      "cancelTargets": ["[data-cy='backButton']"],
+      "outOfScopePathChoices": ["input[type='checkbox']"]
+    },
+    "extractors": [
+      { "key": "selectedCoverage", "kind": "selectedCoverage", "selectors": ["input[type='checkbox']"] },
+      { "key": "fieldCompletion", "kind": "fieldCompletion", "selectors": ["input[type='checkbox']"] },
+      { "key": "validationErrorCount", "kind": "validationErrorCount" },
+      { "key": "sessionDurationMs", "kind": "sessionTiming" }
+    ],
+    "injectionAnchor": "inline-top-of-step"
+  },
+  {
+    "pageStepId": "s2_for_whom",
+    "journeyStage": "insured_person",
+    "verified": true,
+    "enabled": true,
+    "match": {
+      "requiredText": ["Wer soll versichert werden?", "Ich selbst", "Andere Personen"],
+      "requiredSelectorsAll": ["[data-cy='insuredPartyPolicyHolder']", "[data-cy='insuredPartyOther']"]
+    },
+    "selectors": {
+      "stepAnchor": ["h1", "form", "body"],
+      "primaryCta": ["[data-cy='nextStepButton']"],
+      "backButton": ["[data-cy='backButton']"],
+      "cancelTargets": ["[data-cy='backButton']"],
+      "outOfScopePathChoices": ["[data-cy='insuredPartyOther']"]
+    },
+    "extractors": [
+      { "key": "insuredPerson", "kind": "insuredPerson", "selectors": ["input[type='radio']"] },
+      { "key": "fieldCompletion", "kind": "fieldCompletion", "selectors": ["input[type='radio']"] },
+      { "key": "validationErrorCount", "kind": "validationErrorCount" },
+      { "key": "sessionDurationMs", "kind": "sessionTiming" }
+    ],
+    "injectionAnchor": "inline-top-of-step"
+  },
+  {
+    "pageStepId": "s3_quote_basics",
+    "journeyStage": "quote_basics",
+    "verified": true,
+    "enabled": true,
+    "match": {
+      "requiredText": [
+        "Um eine voraussichtliche individuelle Prämie für Sie zu berechnen, benötigen wir:",
+        "Geburtsdatum",
+        "Sozialversicherung"
+      ],
+      "requiredSelectorsAll": ["[data-cy='ur-select-field-button']", "[data-cy='nextStepButton']"]
+    },
+    "selectors": {
+      "stepAnchor": ["h1", "form", "body"],
+      "primaryCta": ["[data-cy='nextStepButton']"],
+      "backButton": ["[data-cy='backButton']"],
+      "cancelTargets": ["[data-cy='backButton']"]
+    },
+    "extractors": [
+      { "key": "ageBand", "kind": "ageBandFromDate", "selectors": ["input[placeholder='TT.MM.JJJJ']"] },
+      {
+        "key": "socialInsuranceProviderCode",
+        "kind": "socialInsuranceProvider",
+        "selectors": ["[data-cy='ur-select-field-input']"]
+      },
+      {
+        "key": "fieldCompletion",
+        "kind": "fieldCompletion",
+        "selectors": ["input[placeholder='TT.MM.JJJJ']", "[data-cy='ur-select-field-input']"]
+      },
+      { "key": "validationErrorCount", "kind": "validationErrorCount" },
+      { "key": "sessionDurationMs", "kind": "sessionTiming" }
+    ],
+    "injectionAnchor": "inline-top-of-step"
+  },
+  {
+    "pageStepId": "s4_initial_price",
+    "journeyStage": "tariff_choice",
+    "verified": true,
+    "enabled": true,
+    "match": {
+      "requiredText": ["Voraussichtliche Prämie", "Opt. Plus", "Premium"],
+      "requiredSelectorsAll": [
+        "[data-cy='selectionButton_0']",
+        "[data-cy='selectionButton_1']",
+        "[data-cy='selectionButton_2']",
+        "[data-cy='selectionButton_3']"
+      ]
+    },
+    "selectors": {
+      "stepAnchor": ["table", "body"],
+      "primaryCta": ["[data-cy='nextStepButton']"],
+      "backButton": ["[data-cy='backButton']"],
+      "cancelTargets": ["[data-cy='backButton']"],
+      "priceTargets": ["table", "[data-cy='selectionButton_0']", "[data-cy='selectionButton_1']"],
+      "priceText": ["table"],
+      "outOfScopeTariffButtons": ["[aria-label='Wählen Opt. Plus']", "[aria-label='Wählen Premium']"]
+    },
+    "extractors": [
+      { "key": "selectedTariff", "kind": "selectedTariff", "selectors": ["[aria-label^='Wählen ']"] },
+      { "key": "visiblePriceMonthly", "kind": "visiblePriceMonthly", "selectors": ["table"] },
+      { "key": "priceDeltaMonthly", "kind": "priceDeltaMonthly", "selectors": ["table"] },
+      { "key": "validationErrorCount", "kind": "validationErrorCount" },
+      { "key": "sessionDurationMs", "kind": "sessionTiming" }
+    ],
+    "injectionAnchor": "near-primary-cta"
+  },
+  {
+    "pageStepId": "s5_add_ons",
+    "journeyStage": "options",
+    "verified": true,
+    "enabled": true,
+    "match": {
+      "requiredText": ["Wünschen Sie Extra-Schutz bei Ihrer Privatarzt-Versicherung?", "Fit fühlen", "VitalPlan"],
+      "requiredSelectorsAll": ["[data-cy='nextStepButton']"],
+      "requiredSelectorsAny": ["input[type='checkbox']"]
+    },
+    "selectors": {
+      "stepAnchor": ["body"],
+      "primaryCta": ["[data-cy='nextStepButton']"],
+      "backButton": ["[data-cy='backButton']"],
+      "cancelTargets": ["[data-cy='backButton']"],
+      "priceTargets": [],
+      "priceText": ["body"],
+      "addOnCheckboxes": ["input[type='checkbox']"]
+    },
+    "extractors": [
+      { "key": "selectedAddOns", "kind": "selectedAddOns", "selectors": ["input[type='checkbox']"] },
+      { "key": "visiblePriceMonthly", "kind": "visiblePriceMonthly", "selectors": ["body"] },
+      { "key": "priceDeltaMonthly", "kind": "priceDeltaMonthly", "selectors": ["body"] },
+      { "key": "fieldCompletion", "kind": "fieldCompletion", "selectors": ["input[type='checkbox']"] },
+      { "key": "validationErrorCount", "kind": "validationErrorCount" },
+      { "key": "sessionDurationMs", "kind": "sessionTiming" }
+    ],
+    "injectionAnchor": "near-primary-cta"
+  },
+  {
+    "pageStepId": "s6_personal_medical_data",
+    "journeyStage": "health_data",
+    "verified": true,
+    "enabled": true,
+    "match": {
+      "requiredText": ["Angaben zu Ihrer Person", "Sozialversicherungsnummer", "Medizinische Angaben"],
+      "requiredSelectorsAll": ["[data-cy='nextStepButton']"]
+    },
+    "selectors": {
+      "stepAnchor": ["body"],
+      "primaryCta": ["[data-cy='nextStepButton']"],
+      "backButton": ["[data-cy='backButton']"],
+      "cancelTargets": ["[data-cy='backButton']"],
+      "priceTargets": [],
+      "priceText": ["body"]
+    },
+    "extractors": [
+      { "key": "fieldCompletion", "kind": "fieldCompletion", "selectors": ["input", "textarea"] },
+      { "key": "validationErrorCount", "kind": "validationErrorCount" },
+      { "key": "visiblePriceMonthly", "kind": "visiblePriceMonthly", "selectors": ["body"] },
+      { "key": "priceDeltaMonthly", "kind": "priceDeltaMonthly", "selectors": ["body"] },
+      { "key": "sessionDurationMs", "kind": "sessionTiming" }
+    ],
+    "injectionAnchor": "inline-top-of-step"
+  },
+  {
+    "pageStepId": "s7_final_price",
+    "journeyStage": "price_review",
+    "verified": true,
+    "enabled": true,
+    "match": {
+      "requiredText": [
+        "Bisherige Versicherungen",
+        "Sind Sie oder waren Sie in den letzten 7 Jahren privat krankenversichert?",
+        "Wurden Anträge abgelehnt oder Verträge durch den Versicherer gekündigt?"
+      ],
+      "requiredSelectorsAll": [
+        "[data-cy='insuranceInPast7Years']",
+        "[data-cy='rejectedApplication']",
+        "[data-cy='nextStepButton']"
+      ]
+    },
+    "selectors": {
+      "stepAnchor": ["body"],
+      "primaryCta": ["[data-cy='nextStepButton']"],
+      "backButton": ["[data-cy='backButton']"],
+      "cancelTargets": ["[data-cy='backButton']"],
+      "priceTargets": ["body"],
+      "priceText": ["body"]
+    },
+    "extractors": [
+      {
+        "key": "fieldCompletion",
+        "kind": "fieldCompletion",
+        "selectors": [
+          "[data-cy='insuranceInPast7Years'] input[type='radio']",
+          "[data-cy='rejectedApplication'] input[type='radio']"
+        ]
+      },
+      { "key": "visiblePriceMonthly", "kind": "visiblePriceMonthly", "selectors": ["body"] },
+      { "key": "priceDeltaMonthly", "kind": "priceDeltaMonthly", "selectors": ["body"] },
+      { "key": "validationErrorCount", "kind": "validationErrorCount" },
+      { "key": "sessionDurationMs", "kind": "sessionTiming" }
+    ],
+    "injectionAnchor": "near-primary-cta"
+  },
+  {
+    "pageStepId": "s8_confirm",
+    "journeyStage": "advisor_contact",
+    "verified": true,
+    "enabled": true,
+    "match": {
+      "requiredText": [
+        "Berateranfrage",
+        "Wo soll die Beratung bevorzugt stattfinden?",
+        "Online Videoberatung"
+      ],
+      "requiredSelectorsAll": [
+        "[data-cy='consultationContact']",
+        "[data-cy='nextStepButton']"
+      ]
+    },
+    "selectors": {
+      "stepAnchor": ["body"],
+      "primaryCta": ["[data-cy='nextStepButton']"],
+      "backButton": ["[data-cy='backButton']"],
+      "cancelTargets": ["[data-cy='backButton']"]
+    },
+    "extractors": [
+      {
+        "key": "fieldCompletion",
+        "kind": "fieldCompletion",
+        "selectors": ["[data-cy='consultationContact'] input[type='radio']"]
+      },
+      { "key": "visiblePriceMonthly", "kind": "visiblePriceMonthly", "selectors": ["body"] },
+      { "key": "priceDeltaMonthly", "kind": "priceDeltaMonthly", "selectors": ["body"] },
+      { "key": "validationErrorCount", "kind": "validationErrorCount" },
+      { "key": "sessionDurationMs", "kind": "sessionTiming" }
+    ],
+    "injectionAnchor": "bottom-toast"
+  }
+]
